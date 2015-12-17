@@ -207,12 +207,12 @@ if(xvalue >= 0 & yvalue >= 0)
             if hitcounter == 0
                 [reflectionx, reflectiony] = getReflectionCord(newx, newy, cmid, mirrorx, mirrory);
                 %plot the initial beam
-                hitcounter = hitcounter + 1;
+                hitcounter = 1;
                 plot(lastx, lasty, '-r');
 
                 %check to see if the reflection hits somewhere
                 [newx, newy, hit, cmid, mirrorx, mirrory, ] = findClosestMirror(reflectionx, reflectiony, currentmirror);
-                while ((hit == true) && hitcounter < 11)
+                while ((hit == true) && hitcounter < 12)
                     hitcounter = hitcounter + 1;
                     if ((newx(1) ~= newx(2)) && (newx(1) ~= 0) && (newx(2) ~= 0))
                         [reflectionx, reflectiony] = getReflectionCord(newx, newy, cmid, mirrorx, mirrory);
@@ -221,7 +221,11 @@ if(xvalue >= 0 & yvalue >= 0)
                     end
                 end
                 %plot([newx(2), reflectionx(2)], [newy(2), reflectiony(2)], '-g');
-                plot(reflectionx, reflectiony, '-r');           
+                %If there has been 10 bounces don't show the last
+                %reflection
+                if hitcounter ~= 11
+                    plot(reflectionx, reflectiony, '-r');
+                end
             end  
         else
              %plot the initial beam
